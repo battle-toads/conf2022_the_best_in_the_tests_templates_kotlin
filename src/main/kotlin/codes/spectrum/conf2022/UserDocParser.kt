@@ -10,13 +10,13 @@ import kotlin.random.Random
  *
  * контракт один - пустой конструктор и реализация [IDocParser]
  */
-class UserDocParser: IDocParser {
+class UserDocParser : IDocParser {
     override fun parse(input: String): List<ExtractedDocument> {
         /**
          * Это пример чтобы пройти совсем первый базовый тест, хардкод, но понятно API,
          * просто посмотрите preparedSampleTests для примера
          */
-        if(input.startsWith("BASE_SAMPLE1.")) {
+        if (input.startsWith("BASE_SAMPLE1.")) {
             return preparedSampleTests(input)
         }
         /**
@@ -25,7 +25,7 @@ class UserDocParser: IDocParser {
          * надо честно реализовать спеки по DocType.T1 и DocType.T2
          * мы их будем проверять секретными тестами!!!
          */
-        if(input.startsWith("@ ")) {
+        if (input.startsWith("@ ")) {
             return qualificationTests(input)
         }
 
@@ -38,8 +38,34 @@ class UserDocParser: IDocParser {
 
     private fun qualificationTests(input: String): List<ExtractedDocument> {
         //TODO: вот тут надо пройти квалификацию по тестам из base.csv, которые начинаются на `@ BT...`
-        return emptyList()
+        val normalized = normalizeInput(input)
+        if (!(normalized.startsWith("BTT1") || normalized.startsWith("BTT2") || normalized.startsWith("BTT0"))) {
+            return listOf(ExtractedDocument(DocType.NOT_FOUND, normalized, false, false))
+        }
+
+        val result = mutableListOf<ExtractedDocument>()
+        val split = normalized.substring(4)
+        val len = split.length
+        if (normalized.startsWith("BTT1") || normalized.startsWith("BTT0")) {
+            if (len == 4 || len == 5) {
+                if (split.first() == '5' && split.last() == '7') {
+                    result.add(ExtractedDocument(DocType.T1, normalized, true, true))
+                } else {
+                    result.add(ExtractedDocument(DocType.T1, normalized, true, false))
+                }
+            }
+        }
+
+        if (normalized.startsWith("BTT2") || normalized.startsWith("BTT0")) {
+            if (split.contains("5") && len == 4)
+                result.add(ExtractedDocument(DocType.T2, normalized, true, true))
+        }
+
+        return result.sortedBy { !it.isValid }
     }
+
+    private fun normalizeInput(input: String): String = input.split(" ")[1].replace("_", "").replace("-", "")
+
 
     private fun preparedSampleTests(input: String): List<ExtractedDocument> {
         return when (input.split("BASE_SAMPLE1.")[1]) {
@@ -51,8 +77,7 @@ class UserDocParser: IDocParser {
                     isValidSetup = Random.nextBoolean(),
                     isValid = Random.nextBoolean(),
                     value = Random.nextInt().toString()
-                ),
-                ExtractedDocument(
+                ), ExtractedDocument(
                     DocType.PASSPORT_RF,
                     isValidSetup = Random.nextBoolean(),
                     isValid = Random.nextBoolean(),
@@ -62,10 +87,7 @@ class UserDocParser: IDocParser {
 
             "3" -> return listOf(
                 ExtractedDocument(
-                    DocType.GRZ,
-                    isValidSetup = true,
-                    isValid = true,
-                    value = Random.nextInt().toString()
+                    DocType.GRZ, isValidSetup = true, isValid = true, value = Random.nextInt().toString()
                 )
             )
 
