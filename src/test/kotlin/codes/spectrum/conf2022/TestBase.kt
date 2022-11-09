@@ -247,7 +247,7 @@ abstract class TestBase(val filesToProcess: List<File>, val enabledByDefault: Bo
             }
         }
 
-        return ""
+        return "battle-toads"
     }
 
     companion object {
