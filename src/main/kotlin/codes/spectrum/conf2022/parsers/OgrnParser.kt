@@ -19,7 +19,7 @@ class OgrnParser : IDocTypeParser {
         if (year in 23..90) isValid = false
 
         val checkSum = normalized.last().toString().toInt()
-        val checkedNum = normalized.dropLast(1).toInt()
+        val checkedNum = normalized.dropLast(1).toLong()
 
         val calculatedSum = checkedNum.mod(11).let {
             if (it == 10) 0 else it
