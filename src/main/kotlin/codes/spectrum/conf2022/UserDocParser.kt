@@ -3,8 +3,7 @@ package codes.spectrum.conf2022
 import codes.spectrum.conf2022.doc_type.DocType
 import codes.spectrum.conf2022.input.IDocParser
 import codes.spectrum.conf2022.output.ExtractedDocument
-import codes.spectrum.conf2022.parsers.T1Parser
-import codes.spectrum.conf2022.parsers.T2Parser
+import codes.spectrum.conf2022.parsers.*
 import kotlin.random.Random
 
 /**
@@ -44,6 +43,9 @@ class UserDocParser : IDocParser {
     private val parsers = mapOf(
         DocType.T1 to T1Parser(),
         DocType.T2 to T2Parser(),
+        DocType.GRZ to GrzParser(),
+        DocType.VIN to VinParser(),
+        DocType.SNILS to SnilsParser(),
     )
 
     private fun qualificationTests(input: String): List<ExtractedDocument> {
