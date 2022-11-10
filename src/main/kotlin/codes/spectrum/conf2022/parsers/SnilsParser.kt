@@ -23,7 +23,29 @@ class SnilsParser() : IDocTypeParser {
         if (first?.toInt() == 1 && second?.toInt() == 1 && (third?.toInt() ?: 0) <= 998) {
             return ExtractedDocument(docType, maybeSnils, true, true)
         } else {
-            return ExtractedDocument(docType, maybeSnils, true, true)
+            val nine = first!!.get(2).toInt()
+            val eigth = first.get(1).toInt()
+            val seven = first.get(0).toInt()
+
+            val six = second!!.get(2).toInt()
+            val five = second.get(1).toInt()
+            val four = second.get(0).toInt()
+
+            val three = third!!.get(2).toInt()
+            val two = third.get(1).toInt()
+            val one = third.get(0).toInt()
+
+
+            val checkFromSnils = check?.toInt() ?: 0
+
+            val checkSum =
+                (nine * 9 + eigth * 8 + seven * 7 + six * 6 + five * 5 + four * 4 + three * 3 + two * 2 + one) % 101
+
+            return if (checkFromSnils == checkSum) {
+                ExtractedDocument(docType, maybeSnils, true, true)
+            } else {
+                ExtractedDocument(docType, maybeSnils, true, false)
+            }
         }
     }
 }

@@ -48,6 +48,7 @@ class UserDocParser : IDocParser {
         DocType.INN_FL to PersonInnParser(),
         DocType.INN_UL to CompanyInnParser(),
         DocType.SNILS to SnilsParser(),
+        DocType.PASSPORT_RF to PassportParser(),
     )
 
     private fun qualificationTests(input: String): List<ExtractedDocument> {
