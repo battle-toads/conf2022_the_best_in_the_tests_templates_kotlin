@@ -4,7 +4,7 @@ import codes.spectrum.conf2022.IDocTypeParser
 import codes.spectrum.conf2022.doc_type.DocType
 import codes.spectrum.conf2022.output.ExtractedDocument
 
-class OgrnParser : IDocTypeParser {
+class OgrnipParser : IDocTypeParser {
     override val docType: DocType = DocType.OGRN
 
     override fun parse(input: String): ExtractedDocument? {
@@ -19,7 +19,7 @@ class OgrnParser : IDocTypeParser {
         if (year in 23..90) isValid = false
 
         val checkSum = normalized.last().toString().toInt()
-        val checkedNum = normalized.dropLast(1).toInt()
+        val checkedNum = normalized.dropLast(1).toLong()
 
         val calculatedSum = checkedNum.mod(11).let {
             if (it == 10) 0 else it
