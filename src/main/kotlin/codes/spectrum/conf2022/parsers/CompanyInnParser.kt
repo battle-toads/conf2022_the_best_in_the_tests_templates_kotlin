@@ -10,10 +10,11 @@ class CompanyInnParser : IDocTypeParser {
     override fun parse(input: String): ExtractedDocument? {
         val normalized = normalizeInput(input)
         if (normalized.length != 10) return null
+        val isValidRegion = normalized.take(2) != "00"
         val digits = normalized.map { it.digitToInt() }
         val checksum = digits.zip(weights) { digit, weight -> weight * digit }
             .sum() % 11 % 10
-        val isValid = checksum == digits[9]
+        val isValid = checksum == digits[9] && isValidRegion
         return ExtractedDocument(docType, normalized, true, isValid)
     }
 

@@ -49,6 +49,7 @@ class UserDocParser : IDocParser {
         DocType.INN_UL to CompanyInnParser(),
         DocType.SNILS to SnilsParser(),
         DocType.PASSPORT_RF to PassportParser(),
+        DocType.DRIVER_LICENSE to DriverLicenseParser(),
         DocType.OGRN to OgrnParser()
     )
 
