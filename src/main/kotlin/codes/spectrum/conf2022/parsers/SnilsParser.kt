@@ -11,7 +11,7 @@ class SnilsParser() : IDocTypeParser {
     val maxSnilsWithoutCheckSumm = "001-001-998-00"
 
     override fun parse(input: String): ExtractedDocument? {
-        val maybeSnils = regex.find(input)?.value ?: return null
+        val maybeSnils = regex.find(input)?.value?.filter { it.isDigit() || it == '-' } ?: return null
 
         val groups = regex.matchEntire(maybeSnils)?.groups ?: return null
 
