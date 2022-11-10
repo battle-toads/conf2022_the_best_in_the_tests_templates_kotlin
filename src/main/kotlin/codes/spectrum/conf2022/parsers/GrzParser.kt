@@ -17,6 +17,21 @@ class GrzParser : IDocTypeParser {
 
     private val regex = """\b[АВЕКМНОРСТУХ]\d{3}[АВЕКМНОРСТУХ]{2}\d{2,3}\b""".toRegex()
 
+    private val translit = mapOf(
+        'A' to 'А',
+        'B' to 'В',
+        'E' to 'Е',
+        'K' to 'К',
+        'M' to 'М',
+        'H' to 'Н',
+        'O' to 'О',
+        'P' to 'Р',
+        'C' to 'С',
+        'T' to 'Т',
+        'Y' to 'У',
+        'X' to 'Х',
+    )
+
     private fun normalizeInput(input: String): String =
         input
             .trimStart('@')
@@ -24,4 +39,6 @@ class GrzParser : IDocTypeParser {
             .replace("_", "")
             .replace("-", "")
             .uppercase()
+            .map { translit[it] ?: it }
+            .joinToString(separator = "")
 }

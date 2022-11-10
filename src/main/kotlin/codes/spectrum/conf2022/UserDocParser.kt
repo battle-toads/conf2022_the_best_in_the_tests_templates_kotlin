@@ -45,6 +45,8 @@ class UserDocParser : IDocParser {
         DocType.T2 to T2Parser(),
         DocType.GRZ to GrzParser(),
         DocType.VIN to VinParser(),
+        DocType.INN_FL to PersonInnParser(),
+        DocType.INN_UL to CompanyInnParser(),
         DocType.SNILS to SnilsParser(),
     )
 
